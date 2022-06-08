@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Categorie;
 use App\Entity\Commande;
+use App\Entity\CommandeProduit;
 use App\Entity\Produit;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -30,16 +31,16 @@ class AppFixtures extends Fixture
             $categories[] = $categorie;
 
         }
-
+        $produits= [];
         for($j = 1; $j <= 20; $j++){
             $produit = new Produit();
             $produit->setCategorie($categories[random_int(0, count($categories) -1)]);
             $produit->setDescription("Lorem ipsum dolor sit amet consectetur");
-            $produit->setNom("Produit" . $j);
-            $produit->setImg("produit1.jpg");
+            $produit->setNom("Produit" . "" . $j);
+            $produit->setImg("produit1.avif");
             $produit->setPrix($j + ($j/10));
-
             $manager->persist($produit);
+            $produits[]= $produit;
         }
 
         $toto = new User();
@@ -54,6 +55,21 @@ class AppFixtures extends Fixture
         $commande->setEtat(0);
         $commande->setUser($toto);
         $manager->persist($commande);
+
+        $cp1 = new CommandeProduit();
+        $cp1->setCommande($commande);
+        $cp1->setProduit($produits[0]);
+        $cp1->setPrixVente($produits[0]->getPrix());
+        $cp1->setQuantite(2);
+        $manager->persist($cp1);
+
+        $cp2 = new CommandeProduit();
+        $cp2->setCommande($commande);
+        $cp2->setProduit($produits[1]);
+        $cp2->setPrixVente($produits[1]->getPrix());
+        $cp2->setQuantite(3);
+        $manager->persist($cp2);
+
 
    
         $manager->flush();
