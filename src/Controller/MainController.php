@@ -19,7 +19,7 @@ class MainController extends AbstractController
     }
 
     #[Route("/produit/{id}", name: "app_produit")]
-    public function produit(Produit $produit)
+    public function produit(Produit $produit)//on récupère une instance de la classe Produit (entity) dans la variable $produit => param converteur
 
     {
         return $this->render("main/produit.html.twig", [
